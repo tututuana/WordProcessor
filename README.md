@@ -1,6 +1,9 @@
 # WordProcessor
 Word Processor in python
 
+# Requirements
+`pip install tk` (For Gui Version)
+
 # How to use terminal version
 How to run
 `.\wordprterminal.py filename.fileextention`
