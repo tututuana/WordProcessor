@@ -350,7 +350,7 @@ root.bind('<Control-A>', select_all)
 root.bind('<Control-a>', select_all)
 
 
-#fee = "John Elder"
+#fee = "tututuana"
 #my_label = Label(root, text=fee[:-1]).pack()
 
 # Create Buttons
