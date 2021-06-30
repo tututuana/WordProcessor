@@ -95,7 +95,7 @@ def interperit(command):
 		open("text.temp")
 		os.remove("text.temp")
 def main():
-	os.system("cls")
+	print('\033[H\033[2J') # ASCII escape character that clears the screen. 
 	global filename
 
 	if len(sys.argv) > 1:
