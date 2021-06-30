@@ -59,6 +59,6 @@ Note that the plugin must be in the same folder as the text editor.
 Runs specified plugin (plugin), with as many arguments (arg1, arg2, arg3, ...) as the plugin calls for.
 An example of a functioning plugin is the graphing.py plugin.
 
-# How to use gui verison
+# How to use gui version
 
 Just open it and start
