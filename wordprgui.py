@@ -17,9 +17,7 @@ global selected
 selected = False
 
 def new_file():
-	# Delete previous text
 	my_text.delete("1.0", END)
-	# Update status bars
 	root.title('New File')
 	status_bar.config(text="New File        ")
 
