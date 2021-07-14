@@ -2,7 +2,6 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter import font
 from tkinter import colorchooser
-import os, sys
 import win32print
 import win32api
 
@@ -11,14 +10,12 @@ root.title('Word Processor Made by Dovg / tututuana')
 root.geometry("1200x710")
 
 
-# Set variable for open file name
 global open_status_name
 open_status_name = False
 
 global selected
 selected = False
 
-# Create New File Function
 def new_file():
 	# Delete previous text
 	my_text.delete("1.0", END)
@@ -29,17 +26,12 @@ def new_file():
 	global open_status_name
 	open_status_name = False
 
-# Open Files
 def open_file():
-	# Delete previous text
 	my_text.delete("1.0", END)
 
-	# Grab Filename
 	text_file = filedialog.askopenfilename(initialdir="C:/", title="Open File", filetypes=(("Text Files", "*.txt"), ("HTML Files", "*.html"), ("Python Files", "*.py"), ("All Files", "*.*")))
 	
-	# Check to see if there is a file name
 	if text_file:
-		# Make filename global so we can access it later
 		global open_status_name
 		open_status_name = text_file
 
@@ -49,40 +41,29 @@ def open_file():
 	name = name.replace("C:/", "")
 	root.title(f'{name}')
 
-	# Open the file
 	text_file = open(text_file, 'r')
 	stuff = text_file.read()
-	# Add file to textbox
 	my_text.insert(END, stuff)
-	# Close the opened file
 	text_file.close()
 
-# Save As File
 def save_as_file():
 	text_file = filedialog.asksaveasfilename(defaultextension=".*", initialdir="C:/", title="Save File", filetypes=(("Text Files", "*.txt"), ("HTML Files", "*.html"), ("Python Files", "*.py"), ("All Files", "*.*")))
 	if text_file:
-		# Update Status Bars
 		name = text_file
 		status_bar.config(text=f'Saved: {name}        ')
 		name = name.replace("C:/", "")
 		root.title(f'{name} - TextPad!')
 
-		# Save the file
 		text_file = open(text_file, 'w')
 		text_file.write(my_text.get(1.0, END))
-		# Close the file
 		text_file.close()
 
-# Save File
 def save_file():
 	global open_status_name
 	if open_status_name:
-		# Save the file
 		text_file = open(open_status_name, 'w')
 		text_file.write(my_text.get(1.0, END))
-		# Close the file
 		text_file.close()
-		# Put status update or popup code
 		status_bar.config(text=f'Saved: {open_status_name}        ')
 		name = open_status_name
 		name = name.replace("C:/", "")
@@ -90,40 +71,29 @@ def save_file():
 	else:
 		save_as_file()
 
-# Cut Text
 def cut_text(e):
 	global selected
-	# Check to see if keyboard shortcut used
 	if e:
 		selected = root.clipboard_get()
 	else:
 		if my_text.selection_get():
-			# Grab selected text from text box
 			selected = my_text.selection_get()
-			# Delete Selected Text from text box
 			my_text.delete("sel.first", "sel.last")
-			# Clear the clipboard then append
 			root.clipboard_clear()
 			root.clipboard_append(selected)
 
-# Copy Text
 def copy_text(e):
 	global selected
-	# check to see if we used keyboard shortcuts
 	if e:
 		selected = root.clipboard_get()
 
 	if my_text.selection_get():
-		# Grab selected text from text box
 		selected = my_text.selection_get()
-		# Clear the clipboard then append
 		root.clipboard_clear()
 		root.clipboard_append(selected)
 
-# Paste Text
 def paste_text(e):
 	global selected
-	#Check to see if keyboard shortcut used
 	if e:
 		selected = root.clipboard_get()
 	else:
@@ -131,93 +101,69 @@ def paste_text(e):
 			position = my_text.index(INSERT)
 			my_text.insert(position, selected)
 
-# Bold Text
 def bold_it():
-	# Create our font
 	bold_font = font.Font(my_text, my_text.cget("font"))
 	bold_font.configure(weight="bold")
 
-	# Configure a tag
 	my_text.tag_configure("bold", font=bold_font)
 
-	# Define Current tags
 	current_tags = my_text.tag_names("sel.first")
 
-	# If statment to see if tag has been set
 	if "bold" in current_tags:
 		my_text.tag_remove("bold", "sel.first", "sel.last")
 	else:
 		my_text.tag_add("bold", "sel.first", "sel.last")
 
-# Italics Text
 def italics_it():
-	# Create our font
 	italics_font = font.Font(my_text, my_text.cget("font"))
 	italics_font.configure(slant="italic")
 
-	# Configure a tag
 	my_text.tag_configure("italic", font=italics_font)
 
-	# Define Current tags
 	current_tags = my_text.tag_names("sel.first")
 
-	# If statment to see if tag has been set
 	if "italic" in current_tags:
 		my_text.tag_remove("italic", "sel.first", "sel.last")
 	else:
 		my_text.tag_add("italic", "sel.first", "sel.last")
 
-# Change Selected Text Color
 def text_color():
-	# Pick a color
 	my_color = colorchooser.askcolor()[1]
 	if my_color:
-		# Create our font
 		color_font = font.Font(my_text, my_text.cget("font"))
 
-		# Configure a tag
 		my_text.tag_configure("colored", font=color_font, foreground=my_color)
 
-		# Define Current tags
 		current_tags = my_text.tag_names("sel.first")
 
-		# If statment to see if tag has been set
 		if "colored" in current_tags:
 			my_text.tag_remove("colored", "sel.first", "sel.last")
 		else:
 			my_text.tag_add("colored", "sel.first", "sel.last")
 
-# Change bg color
 def bg_color():
 	my_color = colorchooser.askcolor()[1]
 	if my_color:
 		my_text.config(bg=my_color)
 
-# Change ALL Text Color
 def all_text_color():
 	my_color = colorchooser.askcolor()[1]
 	if my_color:
 		my_text.config(fg=my_color)
 
-# Print File Function
 def print_file():
 	#printer_name = win32print.GetDefaultPrinter()
 	#status_bar.config(text=printer_name)
 	
-	# Grab Filename
 	file_to_print = filedialog.askopenfilename(initialdir="C:/", title="Open File", filetypes=(("Text Files", "*.txt"), ("HTML Files", "*.html"), ("Python Files", "*.py"), ("All Files", "*.*")))
 
-	# Check to see if we grabbed a filename
 	if file_to_print:
 		# Print the file
 		win32api.ShellExecute(0, "print", file_to_print, None, ".", 0)
 
-# Select all Text
 def select_all(e):
-	# Add sel tag to select all text
 	my_text.tag_add('sel', '1.0', 'end')
 
-# Clear All Text
 def clear_all():
 	my_text.delete(1.0, END)
 
@@ -270,31 +216,24 @@ def night_off():
 
 
 
-# Create a toolbar frame
 toolbar_frame = Frame(root)
 toolbar_frame.pack(fill=X)
 
-# Create Main Frame
 my_frame = Frame(root)
 my_frame.pack(pady=5)
 
-# Create our Scrollbar For the Text Box
 text_scroll = Scrollbar(my_frame)
 text_scroll.pack(side=RIGHT, fill=Y)
 
-# Horizontal Scrollbar
 hor_scroll = Scrollbar(my_frame, orient='horizontal')
 hor_scroll.pack(side=BOTTOM, fill=X)
 
-# Create Text Box
 my_text = Text(my_frame, width=97, height=25, font=("Helvetica", 16), selectbackground="yellow", selectforeground="black", undo=True, yscrollcommand=text_scroll.set, wrap="none", xscrollcommand=hor_scroll.set)
 my_text.pack()
 
-# Configure our Scrollbar
 text_scroll.config(command=my_text.yview)
 hor_scroll.config(command=my_text.xview)
 
-# Create Menu
 my_menu = Menu(root)
 root.config(menu=my_menu)
 
