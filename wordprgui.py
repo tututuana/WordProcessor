@@ -6,7 +6,7 @@ import win32print
 import win32api
 
 root = Tk()
-root.title('Word Processor Made by Dovg / tututuana')
+root.title('Word Processor Made by tututuana')
 root.geometry("1200x710")
 
 
@@ -35,9 +35,9 @@ def open_file():
 
 	# Update Status bars
 	name = text_file
-	status_bar.config(text=f'{name}        ')
+	status_bar.config(text='{}        '.format(name))
 	name = name.replace("C:/", "")
-	root.title(f'{name}')
+	root.title('{}'.format(name))
 
 	text_file = open(text_file, 'r')
 	stuff = text_file.read()
@@ -48,9 +48,9 @@ def save_as_file():
 	text_file = filedialog.asksaveasfilename(defaultextension=".*", initialdir="C:/", title="Save File", filetypes=(("Text Files", "*.txt"), ("HTML Files", "*.html"), ("Python Files", "*.py"), ("All Files", "*.*")))
 	if text_file:
 		name = text_file
-		status_bar.config(text=f'Saved: {name}        ')
+		status_bar.config(text='Saved: {}        '.format(name))
 		name = name.replace("C:/", "")
-		root.title(f'{name} - TextPad!')
+		root.title('{} - TextPad!'.format(name))
 
 		text_file = open(text_file, 'w')
 		text_file.write(my_text.get(1.0, END))
@@ -62,10 +62,10 @@ def save_file():
 		text_file = open(open_status_name, 'w')
 		text_file.write(my_text.get(1.0, END))
 		text_file.close()
-		status_bar.config(text=f'Saved: {open_status_name}        ')
+		status_bar.config(text='Saved: {}        '.format(open_status_name))
 		name = open_status_name
 		name = name.replace("C:/", "")
-		root.title(f'{name}')
+		root.title('{}'.format(name))
 	else:
 		save_as_file()
 
